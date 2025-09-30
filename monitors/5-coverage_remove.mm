@@ -1,0 +1,11 @@
+// The coverage monitor.
+// Determines whether each basic block was reached during program execution.
+// When it's reached, remove the probe so it's not re-executed.
+
+// Wizard's `dyninstr` host module contains a `remove_probe` function just for this!
+// See: https://github.com/titzer/wizard-engine/blob/a3bc0669550a874d29742a168a5bc8e5b461d6ab/apis/whamm_dyninstr.v3#L6
+// To use this as a whamm library, we supply the API definition in the libs/dyninstr.wasm module.
+
+// HINT: You should be able to accomplish this with a slight change to the contents of 3-coverage.mm
+
+// TODO: Write your code here.
