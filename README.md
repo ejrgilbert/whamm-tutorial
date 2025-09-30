@@ -12,7 +12,7 @@ We will be using `wasm-tools` throughout this tutorial to inspect Wasm binaries,
 Binaries are located in the `bin/` folder.
 The binaries in this repository only work on Mac or linux machines.
 Choose the appropriate `whamm` and `wizeng` (wizard engine) binary for you based on your machine architecture.
-If you are on a Mac, use wizard engine's `wizeng.jvm`.
+If you are on a Mac, use wizard engine's `wizeng.jvm` (note that this target will run significantly slower).
 
 To test:
 ```shell
@@ -33,7 +33,9 @@ whamm instr --script path/to/script.mm --core-lib libs/whamm_core.wasm --user-li
 ```
 
 ### Running the monitor on an application.
-TODO
+```shell
+wizard  --env=TO_CONSOLE=true --monitors=output.wasm+libs/whamm_core.wasm+path/to/user_lib.wasm path/to/app.wasm
+```
 
 ##  Whamm Instrumentation: _bytecode rewriting_
 
@@ -47,7 +49,9 @@ whamm instr --app path/to/app.wasm --script path/to/script.mm --core-lib libs/wh
 ```
 
 ### Running the instrumented application.
-TODO
+```shell
+wizard --ext:multi-memory --env=TO_CONSOLE=true libs/whamm_core.wasm libs/other-libs.wasm output.wasm
+```
 
 
 ## A Full Example with the branches monitor.
@@ -71,7 +75,7 @@ wizard  --env=TO_CONSOLE=true --monitors=output.wasm+libs/whamm_core.wasm apps/c
 
 1) Rewrite the application binary:
 ```shell
-whamm instr --script monitors/0-branches.mm --core-lib libs/whamm_core.wasm --app apps/cf.wasm
+whamm instr --script monitors/0-branches.mm --core-lib libs/whamm_core.wasm --app apps/branches.wasm
 
 # To take a look at the WAT:
 wasm-tools print output.wasm -o output.wat
@@ -79,5 +83,5 @@ wasm-tools print output.wasm -o output.wat
 
 2) Run the instrumented Wasm application:
 ```shell
-wizard --env=TO_CONSOLE=true output.wasm libs/whamm_core.wasm
+wizard --ext:multi-memory --env=TO_CONSOLE=true libs/whamm_core.wasm output.wasm
 ```
