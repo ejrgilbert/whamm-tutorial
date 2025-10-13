@@ -11,4 +11,12 @@
 // On `if` and `br_if` opcodes, `on_if` should be called and passed the top-of-stack.
 // On `br_table` opcodes, `on_br_table` should be called with the actual target of the instruction.
 
+// TO RUN (rewriting):
+// ./bin/whamm/whamm-mac instr --script monitors/5-coverage_remove.mm --app apps/adi.wasm --user-libs tracer=./libs/tracer.wasm
+// bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true libs/whamm_core.wasm libs/tracer.wasm output.wasm
+
+// TO RUN (engine):
+// ./bin/whamm/whamm-mac instr --script monitors/5-coverage_remove.mm --user-libs tracer=./libs/tracer.wasm --wizard
+// bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true --monitors=output.wasm+libs/whamm_core.wasm+libs/tracer.wasm apps/adi.wasm
+
 // TODO: Write your code here.

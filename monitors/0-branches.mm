@@ -2,9 +2,13 @@
 // Profiles the branches taken during program execution for the `select`, `br`, `br_if`, and `br_table`
 // opcodes. Can be used for branch coverage.
 
-// TO RUN:
+// TO RUN (rewriting):
 // ./bin/whamm/whamm-mac instr --script monitors/0-branches.mm --app apps/branches.wasm
 // bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true libs/whamm_core.wasm output.wasm
+
+// TO RUN (engine):
+// ./bin/whamm/whamm-mac instr --script monitors/0-branches.mm --wizard
+// bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true --monitors=output.wasm+libs/whamm_core.wasm apps/branches.wasm
 
 // Matches _if and br_if events using glob matching.
 wasm::*if:before {
