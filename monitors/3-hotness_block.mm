@@ -11,4 +11,7 @@
 
 // HINT: Whamm has support for basic blocks! Try running `whamm info --rule 'wasm:block:*' -fv`
 
-// TODO: Write your code here.
+wasm:block:end {
+  report unshared var count: u32;
+  count++;
+}

@@ -12,8 +12,26 @@
 // HINT: To track an indirect call, you can use the function entry probe.
 //       See: `whamm info --rule 'wasm:func:*' -fv`
 
-// Store your data in the following variable:
+use whamm_core;
 // (from, to) -> count
 report var call_graph: map<(u32, u32), u32>;
+var tracking: bool;
+var caller: u32;
 
-// TODO: Write your code here.
+wasm:opcode:call|return_call:before {
+    call_graph[(fid, imm0)]++;
+}
+wasm:opcode:call_indirect|call_ref:before {
+    tracking = true;
+    caller = fid;
+}
+wasm:func:entry {
+    if (tracking) {
+        call_graph[(caller, fid)]++;
+        tracking = false;
+    }
+}
+wasm:report {
+    // makes the flush easier to parse
+    whamm_core.print_map_as_csv(0);
+}

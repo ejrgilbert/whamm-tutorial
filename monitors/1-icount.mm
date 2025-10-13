@@ -11,4 +11,7 @@
 
 // HINT: You should be able to write this monitor with a single probe directive.
 
-// TODO: Write your code here.
+report var count: u32;
+wasm:opcode:*:before {
+    count++;
+}

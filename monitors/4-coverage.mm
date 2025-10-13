@@ -11,4 +11,7 @@
 
 // HINT: You should be able to accomplish this with a slight change to the contents of 3-hotness_block.mm
 
-// TODO: Write your code here.
+wasm:block:end {
+    report unshared var reached: bool;
+    reached = true;
+}

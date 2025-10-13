@@ -12,11 +12,30 @@
 // On `br_table` opcodes, `on_br_table` should be called with the actual target of the instruction.
 
 // TO RUN (rewriting):
-// ./bin/whamm/whamm-mac instr --script monitors/5-coverage_remove.mm --app apps/adi.wasm --user-libs tracer=./libs/tracer.wasm
+// ./bin/whamm/whamm-mac instr --script monitors/7-loops.mm --app apps/cf.wasm --user-libs tracer=./libs/tracer.wasm
 // bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true libs/whamm_core.wasm libs/tracer.wasm output.wasm
 
 // TO RUN (engine):
-// ./bin/whamm/whamm-mac instr --script monitors/5-coverage_remove.mm --user-libs tracer=./libs/tracer.wasm --wizard
-// bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true --monitors=output.wasm+libs/whamm_core.wasm+libs/tracer.wasm apps/adi.wasm
+// ./bin/whamm/whamm-mac instr --script monitors/7-loops.mm --user-libs tracer=./libs/tracer.wasm --wizard
+// bin/wizeng/wizeng.jvm --ext:multi-memory --env=TO_CONSOLE=true --monitors=output.wasm+libs/whamm_core.wasm+libs/tracer.wasm apps/cf.wasm
 
-// TODO: Write your code here.
+use tracer;
+
+// anchors
+wasm:func:entry {
+    unshared var anchor_id: i32 = tracer.init_anchor(fid as i32, pc as i32);
+    tracer.on_anchor(anchor_id);
+}
+wasm:opcode:loop:before {
+    unshared var anchor_id: i32 = tracer.init_anchor(fid as i32, pc as i32);
+    tracer.on_anchor(anchor_id);
+}
+wasm:opcode:*if:before {
+    tracer.on_if(arg0 as i32);
+}
+wasm:opcode:br_table:before {
+    tracer.on_br_table(target as i32);
+}
+wasm:report {
+    tracer.flush_csv();
+}

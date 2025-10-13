@@ -11,4 +11,7 @@
 
 // HINT: You should be able to accomplish this with a slight change to the contents of 1-icount.mm
 
-// TODO: Write your code here.
+wasm:opcode:*:before {
+    report unshared var count: u32;
+    count++;
+}
